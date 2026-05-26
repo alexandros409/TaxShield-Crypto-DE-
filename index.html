@@ -1,1 +1,353 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaxShield Crypto (DE) — §23 EStG Tracker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --accent-color: #00ffa3;
+            --text-color: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #24324f;
+            --danger: #ff4a4a;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            color: var(--accent-color);
+            font-size: 24px;
+        }
+
+        .user-info {
+            text-align: right;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 6px;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            border-color: var(--accent-color);
+        }
+
+        .tab-content {
+            display: none;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #1e2942;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .badge.taxable {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-action {
+            background-color: #0284c7;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .btn-action:hover {
+            background-color: #0369a1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            color: var(--text-muted);
+        }
+
+        /* Hidden PDF layout styles */
+        #pdf-template {
+            display: none;
+            color: #000 !important;
+            background: #fff !important;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <h1>TaxShield Crypto (DE)</h1>
+            <p style="color: var(--text-muted); margin: 5px 0 0 0;">§ 23 EStG Private Veräußerungsgeschäfte</p>
+        </div>
+        <div class="user-info">
+            <strong>Steuerpflichtiger:</strong> Alexandros Chatziliadis<br>
+            <strong>Status:</strong> Active Validation 2026
+        </div>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('dashboard')">Dashboard</button>
+        <button class="tab-btn" onclick="switchTab('simulator')">Exit Simulator (07.12.2026)</button>
+        <button class="tab-btn" onclick="switchTab('lots')">Audit Trail (71 Lots)</button>
+    </div>
+
+    <div id="dashboard" class="tab-content active">
+        <h2>Portfolio Übersicht</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-header"><span>Gesamte Anschaffungskosten</span></div>
+                <div style="font-size: 24px; font-weight: bold; color: var(--accent-color);">10.302,37 €</div>
+                <p style="color: var(--text-muted); font-size: 12px;">Πακέτο Αγορών Έτους 2025</p>
+            </div>
+            <div class="card">
+                <div class="card-header"><span>Safety Buffer Status</span></div>
+                <div style="font-size: 24px; font-weight: bold; color: #38bdf8;">+5 Tage (370 Total)</div>
+                <p style="color: var(--text-muted); font-size: 12px;">Ενεργοποιημένη προστασία timezones</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="simulator" class="tab-content">
+        <h2>Exit Strategy Simulator</h2>
+        <p style="color: var(--text-muted);">Προσομοίωση ολικής ρευστοποίησης lots 2025 στην επιλεγμένη ημερομηνία στόχο.</p>
+        
+        <div style="background-color: #1e2942; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+            <strong>Target Date:</strong> <span style="color: var(--accent-color); font-weight: bold;">07.12.2026</span>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Asset</th>
+                    <th>Menge (Ποσότητα)</th>
+                    <th>Kaufperiode</th>
+                    <th>Haltedauer (Safety-Calculated)</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>BTC</strong></td>
+                    <td>0.032533</td>
+                    <td>15.08.25 - 01.12.25</td>
+                    <td>> 372 Tage</td>
+                    <td><span class="badge">🟢 Steuerfrei</span></td>
+                </tr>
+                <tr>
+                    <td><strong>ETH</strong></td>
+                    <td>1.009189</td>
+                    <td>26.07.25 - 01.12.25</td>
+                    <td>> 372 Tage</td>
+                    <td><span class="badge">🟢 Steuerfrei</span></td>
+                </tr>
+                <tr>
+                    <td><strong>SOL</strong></td>
+                    <td>22.391200</td>
+                    <td>26.07.25 - 01.12.25</td>
+                    <td>> 372 Tage</td>
+                    <td><span class="badge">🟢 Steuerfrei</span></td>
+                </tr>
+                <tr>
+                    <td><strong>RENDER</strong></td>
+                    <td>192.910000</td>
+                    <td>26.07.25 - 01.12.25</td>
+                    <td>> 372 Tage</td>
+                    <td><span class="badge">🟢 Steuerfrei</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="btn-action" onclick="generateTaxReport()">Export PDF Report (Finanzamt Ready)</button>
+    </div>
+
+    <div id="lots" class="tab-content">
+        <h2>Audit Trail / Einzelnachweise</h2>
+        <p style="color: var(--text-muted);">Ανάλυση των 71Lots που αυτόματα αντιστοιχίζονται με το FIFO της Trade Republic.</p>
+        <div class="card">
+            <div style="font-weight: bold; margin-bottom: 10px; color: var(--accent-color);">Bitcoin Lots 2025 (Δείγμα)</div>
+            <div style="font-size: 14px; line-height: 2;">
+                • <strong>Lot 1:</strong> 15.08.2025 | 0.002470 BTC | Anschaffung: 251.02 € | 🟢 Safe (>370 Tage)<br>
+                • <strong>Lot 2:</strong> 25.08.2025 | 0.003100 BTC | Anschaffung: 200.00 € | 🟢 Safe (>370 Tage)<br>
+                • <strong>Lot 3:</strong> 01.12.2025 | 0.026963 BTC | Anschaffung: 9.851,35 € | 🟢 Safe (>370 Tage)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="pdf-template">
+    <h2 style="text-align: center; color: #000; margin-bottom: 5px;">BERECHNUNG DER KRYPTOWÄHRUNGSGEWINNE</h2>
+    <p style="text-align: center; font-size: 14px; margin-top: 0;"><strong>Steuerjahr: 2026</strong> — Private Veräußerungsgeschäfte gemäß § 23 EStG</p>
+    <hr style="border: 1px solid #000;">
+    
+    <p><strong>Steuerpflichtiger:</strong> Alexandros Chatziliadis</p>
+    <p><strong>Erstellungsdatum:</strong> 07.12.2026</p>
+    <p><strong>Datenquelle:</strong> Trade Republic Bank GmbH (Geprüfter FIFO-Auszug)</p>
+
+    <h3 style="margin-top: 30px;">1. Zusammenfassung</h3>
+    <table style="width: 100%; border: 1px solid #000; color: #000;">
+        <tr style="background-color: #f2f2f2;">
+            <th style="border: 1px solid #000; padding: 10px;">Gesamte Anschaffungskosten</th>
+            <th style="border: 1px solid #000; padding: 10px;">Zu versteuernder Gewinn</th>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #000; padding: 10px; font-weight: bold;">10.302,37 €</td>
+            <td style="border: 1px solid #000; padding: 10px; font-weight: bold; color: green;">0,00 € (STEUERFREI - Haltefrist > 1 Jahr)</td>
+        </tr>
+    </table>
+
+    <h3 style="margin-top: 30px;">2. Detaillierte Asset-Aufstellung (Excl. Lots 2025)</h3>
+    <table style="width: 100%; border: 1px solid #000; color: #000;">
+        <tr style="background-color: #f2f2f2;">
+            <th style="border: 1px solid #000; padding: 8px;">Asset</th>
+            <th style="border: 1px solid #000; padding: 8px;">Menge</th>
+            <th style="border: 1px solid #000; padding: 8px;">Kaufperiode</th>
+            <th style="border: 1px solid #000; padding: 8px;">Haltedauer</th>
+            <th style="border: 1px solid #000; padding: 8px;">Status</th>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #000; padding: 8px;">BTC</td>
+            <td style="border: 1px solid #000; padding: 8px;">0.032533</td>
+            <td style="border: 1px solid #000; padding: 8px;">15.08.25 - 01.12.25</td>
+            <td style="border: 1px solid #000; padding: 8px;">> 372 Tage</td>
+            <td style="border: 1px solid #000; padding: 8px; font-weight: bold;">Steuerfrei</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #000; padding: 8px;">ETH</td>
+            <td style="border: 1px solid #000; padding: 8px;">1.009189</td>
+            <td style="border: 1px solid #000; padding: 8px;">26.07.25 - 01.12.25</td>
+            <td style="border: 1px solid #000; padding: 8px;">> 372 Tage</td>
+            <td style="border: 1px solid #000; padding: 8px; font-weight: bold;">Steuerfrei</td>
+        </tr>
+    </table>
+
+    <h3 style="margin-top: 50px;">3. Erklärung des Steuerpflichtigen</h3>
+    <p style="font-style: italic;">"Ich versichere, dass die vorstehenden Angaben nach bestem Wissen und Gewissen wahrheitsgemäß gemacht wurden. Die Haltedauer überschreitet unter Berücksichtigung des Sicherheitsfutters von 5 Tagen die gesetzliche Frist von 365 Tagen."</p>
+    
+    <div style="margin-top: 40px; display: flex; justify-content: space-between;">
+        <div>Datum: 07.12.2026</div>
+        <div style="border-top: 1px solid #000; width: 200px; text-align: center; padding-top: 5px;">Unterschrift Steuerpflichtiger</div>
+    </div>
+</div>
+
+<script>
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    function generateTaxReport() {
+        const element = document.getElementById('pdf-template');
+        element.style.display = 'block'; // Make it visible temporarily for html2pdf
+        
+        const opt = {
+            margin:       10,
+            filename:     'TaxShield_Report_2026_Alexandros.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, logging: false },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().from(element).set(opt).save().then(() => {
+            element.style.display = 'none'; // Re-hide after download
+        });
+    }
+</script>
+
+</body>
+</html>
