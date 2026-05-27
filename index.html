@@ -3,28 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaxShield Crypto (DE) — §23 EStG</title>
+    <title>TaxShield Crypto (DE)</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         body {
-            background-color: #05070f;
+            background-color: #0b0f19;
             color: #ffffff;
-            font-size: 19px; /* Μεγάλη, ξεκούραστη γραμματοσειρά */
+            font-size: 20px; /* Τεράστια γραμματοσειρά για να μην βγάζεις τα μάτια σου */
         }
-        .crypto-font {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 24px; /* Τεράστια ψηφία για τα κρυπτονομίσματα */
-            font-weight: 700;
+        .text-big {
+            font-size: 24px;
+            font-weight: 800;
         }
-        /* Hidden layout for German Tax Authority PDF */
-        #hidden-pdf-document {
-            display: none;
-            color: #000000;
-            background: #ffffff;
-            padding: 50px;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
+        .crypto-num {
+            font-family: monospace;
+            font-size: 26px;
+            font-weight: 900;
+            color: #00ff88;
+        }
+        /* Style για την εκτύπωση: Όταν πατάς Print, κρύβει τα κουμπιά και κρατάει μόνο το χαρτί */
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; color: black !important; font-size: 14px !important; }
+            .print-card { background: white !important; color: black !important; border: 1px solid #000 !important; }
+            .crypto-num { color: black !important; }
         }
     </style>
 </head>
@@ -32,378 +34,101 @@
 
 <div class="max-w-4xl mx-auto">
     
-    <header class="border-b-4 border-slate-800 pb-6 mb-8">
-        <h1 class="text-4xl md:text-5xl font-black text-emerald-400 tracking-tight">TaxShield Crypto (DE)</h1>
-        <p class="text-slate-400 text-lg md:text-xl mt-3 font-medium">
-            Steuerpflichtiger: <span class="text-white font-bold">Alexandros Chatziliadis</span> | Framework: <span class="text-white font-bold">§ 23 EStG</span>
-        </p>
+    <header class="border-b-4 border-slate-800 pb-6 mb-8 no-print">
+        <h1 class="text-4xl md:text-5xl font-black text-emerald-400">TaxShield Crypto (DE)</h1>
+        <p class="text-slate-400 text-xl mt-2">Καθαρό UI & Εκτύπωση χωρίς Bug</p>
     </header>
 
-    <div class="flex flex-col sm:flex-row gap-4 mb-8">
-        <button id="btn-sim" onclick="switchTab('simulator')" class="w-full bg-white text-slate-950 border-2 border-slate-700 py-5 px-6 rounded-xl text-xl font-extrabold cursor-pointer transition-all">
-            🎯 Exit Strategy Simulator
-        </button>
-        <button id="btn-audit" onclick="switchTab('audit')" class="w-full bg-slate-900 text-white border-2 border-slate-800 py-5 px-6 rounded-xl text-xl font-extrabold cursor-pointer transition-all opacity-60">
-            🔍 Audit Trail (71 Lots)
-        </button>
-    </div>
-
-    <div id="tab-simulator" class="bg-slate-900 border-2 border-slate-800 rounded-2xl p-6 md:p-8 shadow-2xl">
+    <div class="bg-slate-900 border-2 border-slate-800 rounded-2xl p-6 md:p-8 shadow-2xl print-card">
         
-        <div class="bg-slate-950 border-2 border-sky-500/40 rounded-xl p-6 mb-8 text-center">
-            <label class="block text-sky-400 text-base md:text-lg font-black tracking-wider uppercase mb-3">ZIEL-DATUM FÜR VERÄUSSERUNG (ΗΜΕΡΟΜΗΝΙΑ ΕΞΟΔΟΥ)</label>
-            <input type="date" id="sim-date-input" value="2026-12-07" onchange="recalculateSimulation()" class="bg-slate-900 border-2 border-sky-500 text-white py-4 px-6 rounded-lg text-3xl font-black text-center cursor-pointer outline-none focus:ring-4 focus:ring-sky-500/20" />
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                    <div class="text-sm text-slate-400 font-bold uppercase">Αφορολόγητα Lots</div>
-                    <div id="stat-lots" class="text-4xl font-black text-emerald-400 mt-1">0</div>
+        <div class="border-b-2 border-slate-700 pb-4 mb-6">
+            <h2 class="text-3xl font-black text-center text-white">BERECHNUNG DER KRYPTOWÄHRUNGSGEWINNE (2026)</h2>
+            <p class="text-center text-slate-400 text-lg mt-1">Private Veräußerungsgeschäfte gemäß § 23 EStG</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-big mb-8 border-b border-slate-800 pb-6">
+            <div><span class="text-slate-400 font-normal">Steuerpflichtiger:</span> <br><strong>Alexandros Chatziliadis</strong></div>
+            <div class="md:text-right"><span class="text-slate-400 font-normal">Ziel-Datum (Έξοδος):</span> <br><strong class="text-sky-400">07.12.2026</strong></div>
+        </div>
+
+        <div class="bg-slate-950 p-6 rounded-xl border-2 border-emerald-500/30 mb-8 print-card">
+            <div class="text-sm text-slate-400 font-bold uppercase tracking-wider">1. STEUERLICHE ZUSAMMENFASSUNG</div>
+            <div class="flex justify-between items-center mt-4 flex-wrap gap-4">
+                <div>
+                    <div class="text-xs text-slate-500 font-bold">GESAMTE ANSCHAFFUNGSKOSTEN</div>
+                    <div class="text-3xl font-black text-white">10.302,37 €</div>
                 </div>
-                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800">
-                    <div class="text-sm text-slate-400 font-bold uppercase">Συνολικό Κόστος Κτήσης</div>
-                    <div id="stat-cost" class="text-4xl font-black text-emerald-400 mt-1">0,00 €</div>
+                <div class="text-right">
+                    <div class="text-xs text-slate-500 font-bold">ZU VERSTEUERNDER GEWINN</div>
+                    <div class="text-3xl font-black text-emerald-400">0,00 € (STEUERFREI)</div>
+                </div>
+            </div>
+            <p class="text-sm text-slate-400 mt-3 border-t border-slate-800 pt-2 italic">
+                * Υπολογισμός με βάση το αυστηρό Buffer ασφαλείας 370 ημερών για την Trade Republic.
+            </p>
+        </div>
+
+        <div class="mb-8">
+            <div class="text-sm text-slate-400 font-bold uppercase tracking-wider mb-4">2. AUFSTELLUNG NACH VERMÖGENSWERTEN</div>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center bg-slate-950/50 p-4 rounded-xl border border-slate-800 print-card">
+                    <div>
+                        <span class="text-2xl font-black" style="color: #F7931A">BTC</span>
+                        <span class="text-sm text-slate-500 block">Bitcoin Lots 2025</span>
+                    </div>
+                    <div class="crypto-num">0.03253300</div>
+                    <div class="text-right font-bold text-xl text-slate-300">€251.02</div>
+                </div>
+                <div class="flex justify-between items-center bg-slate-950/50 p-4 rounded-xl border border-slate-800 print-card">
+                    <div>
+                        <span class="text-2xl font-black" style="color: #627EEA">ETH</span>
+                        <span class="text-sm text-slate-500 block">Ethereum Lots 2025</span>
+                    </div>
+                    <div class="crypto-num">1.00918900</div>
+                    <div class="text-right font-bold text-xl text-slate-300">€100.99</div>
+                </div>
+                <div class="flex justify-between items-center bg-slate-950/50 p-4 rounded-xl border border-slate-800 print-card">
+                    <div>
+                        <span class="text-2xl font-black" style="color: #9945FF">SOL</span>
+                        <span class="text-sm text-slate-500 block">Solana Lots 2025</span>
+                    </div>
+                    <div class="crypto-num">22.39120000</div>
+                    <div class="text-right font-bold text-xl text-slate-300">€36.00</div>
+                </div>
+                <div class="flex justify-between items-center bg-slate-950/50 p-4 rounded-xl border border-slate-800 print-card">
+                    <div>
+                        <span class="text-2xl font-black" style="color: #00D4AA">RENDER</span>
+                        <span class="text-sm text-slate-500 block">Render Lots 2025</span>
+                    </div>
+                    <div class="crypto-num">192.91000000</div>
+                    <div class="text-right font-bold text-xl text-slate-300">€101.06</div>
                 </div>
             </div>
         </div>
 
-        <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead>
-                    <tr class="border-b-2 border-slate-700">
-                        <th class="text-left pb-4 text-slate-400 text-sm font-bold uppercase tracking-wider">Asset</th>
-                        <th class="text-center pb-4 text-slate-400 text-sm font-bold uppercase tracking-wider">Ποσότητα προς Πώληση</th>
-                        <th class="text-right pb-4 text-slate-400 text-sm font-bold uppercase tracking-wider">Αρχική Αξία Αγοράς</th>
-                    </tr>
-                </thead>
-                <tbody id="simulation-tbody">
-                    </tbody>
-            </table>
+        <div class="mt-12 border-t-2 border-slate-800 pt-6">
+            <div class="text-sm text-slate-400 font-bold uppercase tracking-wider mb-2">3. ERKLÄRUNG DES STEUERPFLICHTIGEN</div>
+            <p class="text-base italic text-slate-300 leading-relaxed text-justify">
+                "Ich versichere, dass die vorstehenden Angaben bezüglich der veräußerten Lots aus dem Anschaffungszeitraum 2025 nach bestem Wissen und Gewissen wahrheitsgemäß gemacht wurden. Die gesetzliche Spekulationsfrist von einem Jahr gemäß § 23 EStG wurde vollständig eingehalten."
+            </p>
+            <div class="flex justify-between items-end mt-12 text-base">
+                <div>Ort, Datum: ...........................................</div>
+                <div class="border-t border-white pt-2 w-64 text-center text-slate-400">Unterschrift Alexandros Chatziliadis</div>
+            </div>
         </div>
 
-        <button onclick="exportToFinanzamtPDF()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-xl text-2xl font-black mt-8 cursor-pointer transition-all shadow-lg shadow-blue-600/30">
-            PDF Export για Finanzamt
+    </div>
+
+    <div class="mt-6 no-print">
+        <button onclick="window.print()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-xl text-2xl font-black cursor-pointer transition-all shadow-lg shadow-blue-600/30">
+            🖨️ Εκτύπωση / Αποθήκευση ως PDF
         </button>
-    </div>
-
-    <div id="tab-audit" class="bg-slate-900 border-2 border-slate-800 rounded-2xl p-6 md:p-8 hidden">
-        <h2 class="text-2xl font-black text-emerald-400 mb-2">Audit Trail (Einzelnachweise)</h2>
-        <p class="text-slate-400 text-base mb-6">Πλήρης χαρτογράφηση των αγορών σας με ενσωματωμένο το Buffer των 370 ημερών ασφαλείας.</p>
-        <div id="audit-trail-container" class="max-h-[550px] overflow-y-auto space-y-3 pr-2">
-            </div>
+        <p class="text-center text-sm text-slate-500 mt-3">
+            * Πατώντας το κουμπί, ανοίγει το επίσημο παράθυρο του υπολογιστή σου. Επιλέγεις "Save as PDF" (Αποθήκευση ως PDF) και καθάρισες, χωρίς εξωτερικά bugs.
+        </p>
     </div>
 
 </div>
 
-<div id="hidden-pdf-document">
-    <h2 style="text-align: center; margin-bottom: 5px; font-size: 22px; font-weight: bold;">BERECHNUNG DER KRYPTOWÄHRUNGSGEWINNE</h2>
-    <p style="text-align: center; margin-top: 0; font-size: 14px;"><strong>Steuerjahr: 2026</strong> — Private Veräußerungsgeschäfte gemäß § 23 EStG</p>
-    <hr style="border: 1px solid #000000; margin: 25px 0;" />
-    
-    <table style="width: 100%; margin-bottom: 30px; font-size: 14px; line-height: 1.6;">
-        <tr>
-            <td><strong>Steuerpflichtiger:</strong> Alexandros Chatziliadis</td>
-            <td style="text-align: right;"><strong>Simulationsdatum:</strong> <span id="pdf-sim-date"></span></td>
-        </tr>
-        <tr>
-            <td><strong>Datenquelle:</strong> Trade Republic Bank GmbH</td>
-            <td style="text-align: right;"><strong>Sicherheits-Abschlag:</strong> +5 Tage Buffer (370 Tage total)</td>
-        </tr>
-    </table>
-
-    <h3 style="font-size: 16px; font-weight: bold; margin-top: 30px;">1. Steuerliche Zusammenfassung</h3>
-    <table style="width: 100%; border: 1px solid #000000; border-collapse: collapse; mt: 10px;">
-        <tr style="background: #f2f2f2;">
-            <th style="border: 1px solid #000000; padding: 12px; text-align: left;">Gesamte Anschaffungskosten (2025 Lots)</th>
-            <th style="border: 1px solid #000000; padding: 12px; text-align: right;">Zu versteuernder Gewinn</th>
-        </tr>
-        <tr>
-            <td style="border: 1px solid #000000; padding: 12px; font-weight: bold;" id="pdf-total-cost"></td>
-            <td style="border: 1px solid #000000; padding: 12px; font-weight: bold; text-align: right; color: green;">0,00 € (STEUERFREI - Spekulationsfrist abgelaufen)</td>
-        </tr>
-    </table>
-
-    <h3 style="font-size: 16px; font-weight: bold; margin-top: 30px;">2. Aufstellung nach Vermögenswerten</h3>
-    <table style="width: 100%; border: 1px solid #000000; border-collapse: collapse; mt: 10px;" id="pdf-asset-table">
-        <tr style="background: #f2f2f2;">
-            <th style="border: 1px solid #000000; padding: 10px; text-align: left;">Asset</th>
-            <th style="border: 1px solid #000000; padding: 10px; text-align: center;">Menge (Veräußert)</th>
-            <th style="border: 1px solid #000000; padding: 10px; text-align: right;">Anschaffungswert (Historisch)</th>
-        </tr>
-        </table>
-
-    <h3 style="font-size: 16px; font-weight: bold; margin-top: 40px;">3. Erklärung des Steuerpflichtigen</h3>
-    <p style="font-style: italic; line-height: 1.6; text-align: justify;">
-        "Ich versichere, dass die vorstehenden Angaben bezüglich των Lots aus dem Anschaffungszeitraum 2025 nach bestem Wissen und Gewissen wahrheitsgemäß gemacht wurden. Unter Berücksichtigung des Sicherheitsabschlags von 5 Tagen wurde die gesetzliche Spekulationsfrist von einem Jahr gemäß § 23 EStG vollständig eingehalten."
-    </p>
-
-    <div style="margin-top: 60px; display: flex; justify-content: space-between;">
-        <div>Ort, Datum: ...........................................</div>
-        <div style="border-top: 1px solid #000000; width: 250px; text-align: center; padding-top: 5px;">Unterschrift Alexandros Chatziliadis</div>
-    </div>
-</div>
-
-<script>
-    // Database containing all your 71 lots
-    const DATA = [
-      { date: "2025-08-15", asset: "BTC",    amount: 251.02,  qty: 0.00247 },
-      { date: "2025-09-25", asset: "BTC",    amount: 100.92,  qty: 0.001059 },
-      { date: "2025-10-10", asset: "BTC",    amount: 100.90,  qty: 0.001 },
-      { date: "2025-10-14", asset: "BTC",    amount: 50.91,   qty: 0.000516 },
-      { date: "2025-10-15", asset: "BTC",    amount: 100.99,  qty: 0.001044 },
-      { date: "2025-10-16", asset: "BTC",    amount: 100.94,  qty: 0.001069 },
-      { date: "2025-10-19", asset: "BTC",    amount: 100.93,  qty: 0.001087 },
-      { date: "2025-10-30", asset: "BTC",    amount: 100.94,  qty: 0.001058 },
-      { date: "2025-11-03", asset: "BTC",    amount: 100.97,  qty: 0.001077 },
-      { date: "2025-11-04", asset: "BTC",    amount: 100.93,  qty: 0.001105 },
-      { date: "2025-11-05", asset: "BTC",    amount: 100.92,  qty: 0.001144 },
-      { date: "2025-11-06", asset: "BTC",    amount: 481.92,  qty: 0.005286 },
-      { date: "2025-11-07", asset: "BTC",    amount: 500.93,  qty: 0.005719 },
-      { date: "2025-11-11", asset: "BTC",    amount: 250.94,  qty: 0.002774 },
-      { date: "2025-11-12", asset: "BTC",    amount: 250.98,  qty: 0.002813 },
-      { date: "2025-12-01", asset: "BTC",    amount: 251.00,  qty: 0.003312 },
-      { date: "2026-02-05", asset: "BTC",    amount: 500.99,  qty: 0.008419 },
-      { date: "2025-09-23", asset: "ETH",    amount: 100.99,  qty: 0.027929 },
-      { date: "2025-09-25", asset: "ETH",    amount: 100.96,  qty: 0.029802 },
-      { date: "2025-10-10", asset: "ETH",    amount: 100.01,  qty: 0.027 },
-      { date: "2025-10-17", asset: "ETH",    amount: 131.00,  qty: 0.038308 },
-      { date: "2025-10-30", asset: "ETH",    amount: 100.95,  qty: 0.029977 },
-      { date: "2025-10-30", asset: "ETH",    amount: 101.01,  qty: 0.03052 },
-      { date: "2025-10-30", asset: "ETH",    amount: 101.03,  qty: 0.030475 },
-      { date: "2025-11-03", asset: "ETH",    amount: 101.02,  qty: 0.03096 },
-      { date: "2025-11-03", asset: "ETH",    amount: 100.98,  qty: 0.031773 },
-      { date: "2025-11-03", asset: "ETH",    amount: 101.00,  qty: 0.031627 },
-      { date: "2025-11-04", asset: "ETH",    amount: 101.01,  qty: 0.03258 },
-      { date: "2025-11-04", asset: "ETH",    amount: 101.00,  qty: 0.035328 },
-      { date: "2025-11-05", asset: "ETH",    amount: 101.01,  qty: 0.035557 },
-      { date: "2025-11-06", asset: "ETH",    amount: 299.00,  qty: 0.098942 },
-      { date: "2025-11-07", asset: "ETH",    amount: 501.10,  qty: 0.176304 },
-      { date: "2025-11-12", asset: "ETH",    amount: 250.95,  qty: 0.084024 },
-      { date: "2025-11-24", asset: "ETH",    amount: 250.92,  qty: 0.100608 },
-      { date: "2025-11-29", asset: "ETH",    amount: 250.94,  qty: 0.095248 },
-      { date: "2025-12-01", asset: "ETH",    amount: 101.00,  qty: 0.042227 },
-      { date: "2026-02-05", asset: "ETH",    amount: 501.35,  qty: 0.282513 },
-      { date: "2025-09-25", asset: "SOL",    amount: 36.00,   qty: 0.208722 },
-      { date: "2025-10-10", asset: "SOL",    amount: 51.01,   qty: 0.263288 },
-      { date: "2025-10-13", asset: "SOL",    amount: 115.98,  qty: 0.677986 },
-      { date: "2025-10-13", asset: "SOL",    amount: 50.90,   qty: 0.299089 },
-      { date: "2025-10-14", asset: "SOL",    amount: 50.94,   qty: 0.29578 },
-      { date: "2025-10-15", asset: "SOL",    amount: 51.01,   qty: 0.299754 },
-      { date: "2025-10-16", asset: "SOL",    amount: 51.03,   qty: 0.306192 },
-      { date: "2025-10-19", asset: "SOL",    amount: 100.90,  qty: 0.629953 },
-      { date: "2025-10-30", asset: "SOL",    amount: 101.01,  qty: 0.611445 },
-      { date: "2025-11-01", asset: "SOL",    amount: 100.76,  qty: 0.620131 },
-      { date: "2025-11-03", asset: "SOL",    amount: 101.01,  qty: 0.681635 },
-      { date: "2025-11-03", asset: "SOL",    amount: 76.00,   qty: 0.490218 },
-      { date: "2025-11-03", asset: "SOL",    amount: 101.01,  qty: 0.685979 },
-      { date: "2025-11-04", asset: "SOL",    amount: 100.98,  qty: 0.706773 },
-      { date: "2025-11-05", asset: "SOL",    amount: 100.97,  qty: 0.76309 },
-      { date: "2025-11-07", asset: "SOL",    amount: 501.12,  qty: 3.755078 },
-      { date: "2025-11-11", asset: "SOL",    amount: 251.10,  qty: 1.780309 },
-      { date: "2025-11-12", asset: "SOL",    amount: 250.94,  qty: 1.872112 },
-      { date: "2025-11-24", asset: "SOL",    amount: 250.90,  qty: 2.186251 },
-      { date: "2025-11-29", asset: "SOL",    amount: 251.00,  qty: 2.084983 },
-      { date: "2025-12-01", asset: "SOL",    amount: 250.99,  qty: 2.24187 },
-      { date: "2025-12-01", asset: "SOL",    amount: 100.97,  qty: 0.930596 },
-      { date: "2026-02-05", asset: "SOL",    amount: 501.35,  qty: 6.575918 },
-      { date: "2026-04-07", asset: "SOL",    amount: 501.01,  qty: 7.129514 },
-      { date: "2025-07-26", asset: "RENDER", amount: 101.06,  qty: 27.28 },
-      { date: "2025-11-11", asset: "RENDER", amount: 100.78,  qty: 46.75 },
-      { date: "2025-11-12", asset: "RENDER", amount: 100.99,  qty: 48.77 },
-      { date: "2025-12-06", asset: "RENDER", amount: 100.96,  qty: 70.11 },
-      { date: "2026-02-05", asset: "RENDER", amount: 100.96,  qty: 82.34 },
-      { date: "2026-04-19", asset: "RENDER", amount: 500.99,  qty: 325.44 },
-      { date: "2025-10-05", asset: "DOT",    amount: 51.02,   qty: 14.171853 },
-      { date: "2025-11-11", asset: "DOT",    amount: 51.00,   qty: 18.106888 },
-      { date: "2025-11-12", asset: "DOT",    amount: 101.00,   qty: 39.73331 },
-      { date: "2025-11-12", asset: "DOT",    amount: 100.99,  qty: 39.795134 },
-      { date: "2026-02-05", asset: "DOT",    amount: 101.00,  qty: 84.775218 },
-      { date: "2026-04-20", asset: "DOT",    amount: 251.04,  qty: 229.644326 },
-      { date: "2025-07-26", asset: "MATIC",  amount: 101.01,  qty: 501.904728 },
-      { date: "2025-11-11", asset: "MATIC",  amount: 101.01,  qty: 647.027233 },
-      { date: "2025-11-12", asset: "MATIC",  amount: 101.00,  qty: 684.060033 },
-      { date: "2026-02-05", asset: "MATIC",  amount: 100.98,  qty: 1148.382503 },
-      { date: "2025-09-29", asset: "HBAR",   amount: 101.00,  qty: 533.143392 },
-      { date: "2025-11-11", asset: "HBAR",   amount: 101.00,  qty: 615.729423 },
-      { date: "2025-11-12", asset: "HBAR",   amount: 101.00,  qty: 656.672117 },
-      { date: "2026-02-05", asset: "HBAR",   amount: 101.03,  qty: 1376.09124 },
-      { date: "2026-04-06", asset: "NEAR",   amount: 501.04,  qty: 447.920306 },
-      { date: "2026-04-07", asset: "SUI",    amount: 251.13,  qty: 324.002 }
-    ];
-
-    const COLORS = { BTC: "#F7931A", ETH: "#627EEA", SOL: "#9945FF", RENDER: "#00D4AA", DOT: "#E6007A", MATIC: "#8247E5", HBAR: "#00AABC", NEAR: "#00C08B", SUI: "#4CA3FF" };
-    const DECIMALS = { BTC: 8, ETH: 6, SOL: 4, RENDER: 2, DOT: 4, MATIC: 0, HBAR: 0, NEAR: 2, SUI: 2 };
-    const ASSET_ORDER = ["BTC", "ETH", "SOL", "RENDER", "DOT", "MATIC", "HBAR", "NEAR", "SUI"];
-
-    // 370 Days Safety Buffer calculation hardcoded
-    function getSafeMaturityDate(dateStr) {
-        const d = new Date(dateStr + "T00:00:00");
-        d.setDate(d.getDate() + 370);
-        return d.toISOString().split("T")[0];
-    }
-
-    function getDaysLeft(maturityStr) {
-        const today = new Date(); today.setHours(0,0,0,0);
-        return Math.ceil((new Date(maturityStr + "T00:00:00") - today) / 86400000);
-    }
-
-    // Process global array
-    const processedData = DATA.map((p, idx) => {
-        const mat = getSafeMaturityDate(p.date);
-        const days = getDaysLeft(mat);
-        return { ...p, mat, days, id: idx };
-    }).sort((a, b) => a.mat.localeCompare(b.mat));
-
-    // UI Tab switching
-    function switchTab(tabName) {
-        if (tabName === 'simulator') {
-            document.getElementById('tab-simulator').classList.remove('hidden');
-            document.getElementById('tab-audit').classList.add('hidden');
-            document.getElementById('btn-sim').classList.remove('opacity-60', 'bg-slate-900', 'text-white');
-            document.getElementById('btn-sim').classList.add('bg-white', 'text-slate-950');
-            document.getElementById('btn-audit').classList.add('opacity-60', 'bg-slate-900', 'text-white');
-            document.getElementById('btn-audit').classList.remove('bg-white', 'text-slate-950');
-        } else {
-            document.getElementById('tab-simulator').classList.add('hidden');
-            document.getElementById('tab-audit').classList.remove('hidden');
-            document.getElementById('btn-audit').classList.remove('opacity-60', 'bg-slate-900', 'text-white');
-            document.getElementById('btn-audit').classList.add('bg-white', 'text-slate-950');
-            document.getElementById('btn-sim').classList.add('opacity-60', 'bg-slate-900', 'text-white');
-            document.getElementById('btn-sim').classList.remove('bg-white', 'text-slate-950');
-        }
-    }
-
-    // Live Simulator Engine
-    function recalculateSimulation() {
-        const selectedDate = document.getElementById('sim-date-input').value;
-        const qualified = processedData.filter(p => p.mat <= selectedDate);
-        
-        // Grouping
-        const summary = {};
-        qualified.forEach(p => {
-            if (!summary[p.asset]) summary[p.asset] = { qty: 0, cost: 0 };
-            summary[p.asset].qty += p.qty;
-            summary[p.asset].cost += p.amount;
-        });
-
-        // Compute Totals
-        const totalCost = qualified.reduce((sum, p) => sum + p.amount, 0);
-        document.getElementById('stat-lots').innerText = qualified.length;
-        document.getElementById('stat-cost').innerText = totalCost.toLocaleString("de-DE", { minimumFractionDigits: 2 }) + " €";
-
-        // Render Main Table Rows
-        const tbody = document.getElementById('simulation-tbody');
-        tbody.innerHTML = '';
-        
-        const activeAssets = ASSET_ORDER.filter(a => summary[a]);
-        
-        if (activeAssets.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="3" class="text-center py-12 text-slate-500">Keine steuerfreien Lots gefunden.</td></tr>`;
-            return;
-        }
-
-        activeAssets.forEach(asset => {
-            const rowData = summary[asset];
-            const color = COLORS[asset];
-            const formattedQty = rowData.qty.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: DECIMALS[asset] });
-            const formattedCost = rowData.cost.toLocaleString("de-DE", { minimumFractionDigits: 2 });
-
-            tbody.innerHTML += `
-                <tr class="border-b border-slate-800">
-                    <td class="py-6 text-2xl font-black" style="color: ${color}">${asset}</td>
-                    <td class="py-6 text-center crypto-font tracking-wide">${formattedQty}</td>
-                    <td class="py-6 text-right text-2xl font-bold text-emerald-400">€${formattedCost}</td>
-                </tr>
-            `;
-        });
-    }
-
-    // Render Audit Trail List
-    function buildAuditTrail() {
-        const container = document.getElementById('audit-trail-container');
-        container.innerHTML = '';
-        
-        processedData.forEach((lot, idx) => {
-            const color = COLORS[lot.asset];
-            const statusText = lot.days <= 0 ? "🟢 STEUERFREI" : `⏳ ${lot.days} Tage`;
-            const statusColorClass = lot.days <= 0 ? "text-emerald-400" : "text-sky-400";
-            
-            container.innerHTML += `
-                <div class="bg-slate-950 p-5 rounded-xl border border-slate-800" style="border-left: 6px solid ${color}">
-                    <div class="flex justify-between font-black text-xl">
-                        <span style="color: ${color}">${lot.asset} (Lot #${idx + 1})</span>
-                        <span class="${statusColorClass}">${statusText}</span>
-                    </div>
-                    <div class="text-base text-slate-400 mt-2 font-mono font-medium">
-                        Kauf: ${lot.date} | Qty: ${lot.qty.toLocaleString("de-DE", { maximumFractionDigits: 8 })} | Wert: €${lot.amount.toFixed(2)}
-                    </div>
-                </div>
-            `;
-        });
-    }
-
-    // Generate Official Report for Finanzamt
-    function exportToFinanzamtPDF() {
-        const simDate = document.getElementById('sim-date-input').value;
-        const qualified = processedData.filter(p => p.mat <= simDate);
-        
-        const summary = {};
-        qualified.forEach(p => {
-            if (!summary[p.asset]) summary[p.asset] = { qty: 0, cost: 0 };
-            summary[p.asset].qty += p.qty;
-            summary[p.asset].cost += p.amount;
-        });
-        
-        const totalCost = qualified.reduce((sum, p) => sum + p.amount, 0);
-        
-        // Update PDF fields
-        document.getElementById('pdf-sim-date').innerText = simDate;
-        document.getElementById('pdf-total-cost').innerText = totalCost.toLocaleString("de-DE", { minimumFractionDigits: 2 }) + " €";
-        
-        const pdfTable = document.getElementById('pdf-asset-table');
-        // Reset rows except the header
-        pdfTable.innerHTML = `
-            <tr style="background: #f2f2f2;">
-                <th style="border: 1px solid #000000; padding: 10px; text-align: left;">Asset</th>
-                <th style="border: 1px solid #000000; padding: 10px; text-align: center;">Menge (Veräußert)</th>
-                <th style="border: 1px solid #000000; padding: 10px; text-align: right;">Anschaffungswert (Historisch)</th>
-            </tr>
-        `;
-
-        const activeAssets = ASSET_ORDER.filter(a => summary[a]);
-        activeAssets.forEach(asset => {
-            pdfTable.innerHTML += `
-                <tr>
-                    <td style="border: 1px solid #000000; padding: 10px; font-weight: bold;">${asset}</td>
-                    <td style="border: 1px solid #000000; padding: 10px; text-align: center; font-family: monospace;">
-                        ${summary[asset].qty.toLocaleString("de-DE", { maximumFractionDigits: DECIMALS[asset] })}
-                    </td>
-                    <td style="border: 1px solid #000000; padding: 10px; text-align: right;">€${summary[asset].cost.toLocaleString("de-DE", { minimumFractionDigits: 2 })}</td>
-                </tr>
-            `;
-        });
-
-        // Trigger compilation via html2pdf
-        const report = document.getElementById('hidden-pdf-document');
-        report.style.display = 'block';
-
-        const opt = {
-            margin: 15,
-            filename: `TaxShield_Report_${simDate}_Alexandros.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, logging: false },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-
-        html2pdf().from(report).set(opt).save().then(() => {
-            report.style.display = 'none';
-        });
-    }
-
-    // Bootstrap app execution
-    window.onload = function() {
-        recalculateSimulation();
-        buildAuditTrail();
-    };
-</script>
 </body>
 </html>
